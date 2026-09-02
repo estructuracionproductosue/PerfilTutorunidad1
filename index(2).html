@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conoce a la tutora de la unidad</title>
+  <style>
+    :root {
+      --crema: #fffaf4;
+      --arena: #dcc29d;
+      --rosa: #eb9ab0;
+      --coral: #ee5949;
+      --naranja: #ff7e29;
+      --borgona: #7b283f;
+      --texto: #382d30;
+      --suave: #6f6265;
+      --linea: #e4d6c8;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--crema);
+      color: var(--texto);
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    }
+
+    button { font: inherit; }
+
+    .tutor-app {
+      width: min(100%, 920px);
+      margin: 0 auto;
+      padding: 14px;
+    }
+
+    .tutor-shell {
+      overflow: hidden;
+      background: var(--crema);
+      border: 1px solid #d9c2b5;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(73,35,45,.12);
+    }
+
+    .color-bar {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      height: 8px;
+    }
+
+    .header {
+      padding: 21px 24px 16px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 15% 0, rgba(220,194,157,.25), transparent 28%),
+        radial-gradient(circle at 85% 0, rgba(235,154,176,.20), transparent 28%),
+        var(--crema);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 7px;
+      padding: 5px 11px;
+      color: #bd4d32;
+      border: 1px solid var(--naranja);
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--borgona);
+      font-size: clamp(24px, 4vw, 32px);
+      line-height: 1.18;
+    }
+
+    .header-line {
+      width: 52px;
+      height: 4px;
+      margin: 11px auto 0;
+      background: var(--naranja);
+      border-radius: 4px;
+    }
+
+    .profile-wrap { padding: 4px 22px 24px; }
+
+    .profile-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 0fr;
+      min-height: 430px;
+      overflow: hidden;
+      background: rgba(255,255,255,.68);
+      border: 1px solid var(--linea);
+      border-left: 6px solid var(--borgona);
+      border-radius: 15px;
+      transition: grid-template-columns .65s cubic-bezier(.22,.85,.28,1);
+    }
+
+    .profile-card.is-open {
+      grid-template-columns: minmax(230px, .78fr) minmax(0, 1.62fr);
+    }
+
+    .photo-panel {
+      position: relative;
+      display: grid;
+      min-width: 0;
+      place-items: center;
+      padding: 24px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(235,154,176,.20), transparent 38%),
+        linear-gradient(145deg, #fffaf4, #f6e8dd);
+      transition: padding .55s ease;
+    }
+
+    .profile-card.is-open .photo-panel { padding: 22px 18px; }
+
+    .photo-trigger {
+      width: min(100%, 285px);
+      padding: 0;
+      color: inherit;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .photo-trigger:focus-visible {
+      outline: 3px solid rgba(255,126,41,.42);
+      outline-offset: 5px;
+      border-radius: 14px;
+    }
+
+    .photo-frame {
+      position: relative;
+      display: grid;
+      width: min(100%, 250px);
+      aspect-ratio: 4 / 5;
+      margin: 0 auto;
+      place-items: center;
+      overflow: hidden;
+      background: #f8ece4;
+      border: 2px dashed #cfaea5;
+      border-radius: 16px;
+      box-shadow: 0 11px 24px rgba(73,35,45,.14);
+      transition: transform .4s ease, box-shadow .4s ease;
+    }
+
+    .photo-trigger:hover .photo-frame {
+      box-shadow: 0 15px 28px rgba(73,35,45,.20);
+      transform: translateY(-3px);
+    }
+
+    /* Cuando tengas la foto, reemplaza .photo-placeholder por:
+       <img class="tutor-photo" src="URL-DE-LA-FOTO" alt="Ana María León Restrepo"> */
+    .tutor-photo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .photo-placeholder {
+      display: grid;
+      width: 100%;
+      height: 100%;
+      padding: 18px;
+      place-items: center;
+      color: var(--borgona);
+      text-align: center;
+    }
+
+    .initials {
+      display: grid;
+      width: 78px;
+      height: 78px;
+      margin: 0 auto 13px;
+      place-items: center;
+      background: var(--crema);
+      border: 1px solid var(--rosa);
+      border-radius: 50%;
+      font-size: 25px;
+      font-weight: 900;
+    }
+
+    .photo-placeholder strong {
+      display: block;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .photo-name {
+      margin: 14px 0 4px;
+      color: var(--borgona);
+      font-size: 19px;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+
+    .photo-role {
+      margin: 0;
+      color: var(--suave);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .reveal-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 13px;
+      padding: 8px 13px;
+      color: #fff;
+      background: var(--borgona);
+      border-radius: 999px;
+      box-shadow: 0 6px 13px rgba(123,40,63,.18);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .reveal-label::after {
+      content: "→";
+      font-size: 16px;
+      transition: transform .3s ease;
+    }
+
+    .profile-card.is-open .reveal-label::after { transform: rotate(180deg); }
+
+    .bio-panel {
+      min-width: 0;
+      max-height: 430px;
+      overflow: auto;
+      opacity: 0;
+      padding: 26px 0;
+      transform: translateX(34px);
+      visibility: hidden;
+      transition:
+        opacity .42s ease .18s,
+        transform .55s cubic-bezier(.22,.85,.28,1) .10s,
+        padding .55s ease,
+        visibility 0s linear .58s;
+      scrollbar-color: #d9c2b5 transparent;
+      scrollbar-width: thin;
+    }
+
+    .profile-card.is-open .bio-panel {
+      opacity: 1;
+      padding: 26px 26px 26px 12px;
+      transform: translateX(0);
+      visibility: visible;
+      transition-delay: .12s, .06s, 0s, 0s;
+    }
+
+    .bio-kicker {
+      margin: 0 0 4px;
+      color: var(--coral);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .bio-panel h2 {
+      margin: 0 0 12px;
+      color: var(--borgona);
+      font-size: clamp(21px, 3vw, 27px);
+      line-height: 1.22;
+    }
+
+    .bio-panel p {
+      margin: 0 0 12px;
+      color: var(--texto);
+      font-size: 14px;
+      line-height: 1.62;
+      text-align: left;
+    }
+
+    .welcome-note {
+      margin-top: 16px;
+      padding: 12px 14px;
+      color: var(--borgona);
+      background: #fff4ec;
+      border: 1px solid var(--linea);
+      border-left: 5px solid var(--naranja);
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 750;
+      line-height: 1.5;
+    }
+
+    .close-btn {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 8px 14px;
+      color: var(--borgona);
+      background: transparent;
+      border: 1px solid var(--borgona);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .close-btn:hover { background: #fff4ec; }
+
+    @media (max-width: 700px) {
+      .tutor-app { padding: 8px; }
+      .tutor-shell { border-radius: 16px; }
+      .header { padding: 18px 16px 14px; }
+      .profile-wrap { padding: 4px 12px 16px; }
+      .profile-card,
+      .profile-card.is-open { grid-template-columns: 1fr; }
+      .profile-card { min-height: 0; }
+      .photo-panel { padding: 20px 15px; }
+      .photo-frame { max-width: 205px; }
+      .profile-card.is-open .photo-panel { padding: 18px 15px 12px; }
+      .bio-panel {
+        max-height: 0;
+        padding: 0 16px;
+        transform: translateY(18px);
+      }
+      .profile-card.is-open .bio-panel {
+        max-height: 900px;
+        padding: 14px 18px 22px;
+        transform: translateY(0);
+      }
+      .profile-card.is-open .photo-frame { max-width: 155px; }
+      .profile-card.is-open .photo-name { margin-top: 10px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="tutor-app">
+    <section class="tutor-shell" aria-labelledby="profile-title">
+      <div class="color-bar" aria-hidden="true">
+        <span style="background:#dcc29d"></span>
+        <span style="background:#eb9ab0"></span>
+        <span style="background:#ee5949"></span>
+        <span style="background:#ff7e29"></span>
+        <span style="background:#7b283f"></span>
+      </div>
+
+      <header class="header">
+        <span class="eyebrow">Acompañamiento de la unidad</span>
+        <h1 id="profile-title">Conoce a la tutora del módulo</h1>
+        <div class="header-line" aria-hidden="true"></div>
+      </header>
+
+      <div class="profile-wrap">
+        <article class="profile-card" id="profileCard">
+          <div class="photo-panel">
+            <button class="photo-trigger" id="photoTrigger" type="button" aria-expanded="false" aria-controls="bioPanel">
+              <div class="photo-frame">
+                <div class="photo-placeholder">
+                  <div>
+                    <span class="initials">AL</span>
+                    <strong>Espacio reservado para la fotografía</strong>
+                  </div>
+                </div>
+              </div>
+              <p class="photo-name">Ana María León Restrepo</p>
+              <p class="photo-role">Tutora · Módulo 1: El Ser</p>
+              <span class="reveal-label" id="revealLabel">Conocer a Ana</span>
+            </button>
+          </div>
+
+          <div class="bio-panel" id="bioPanel" aria-hidden="true">
+            <p class="bio-kicker">Una guía de adentro hacia afuera</p>
+            <h2>Ana María León Restrepo</h2>
+
+            <p>¡Hola! O <em>Sat Naam</em>, que quiere decir identidad verdadera, como nos saludamos en mi comunidad de profesoras de yoga. Soy Ana, la mamá de una brillante bailarina de nueve años. Me formé como pedagoga y, al poco tiempo, cursé mis estudios como magíster en hermenéutica literaria.</p>
+
+            <p>Aprecio la armonía y el pensamiento estético; me gusta hacerme preguntas, y esto me llevó a cruzar mi camino con la filosofía de la India. Durante la pandemia me formé como terapeuta de yoga y ayurveda. He caminado al lado de grandes personas que han ayudado a moldear mi carácter y mis gustos. Soy una mujer decidida y encuentras en mí exigencia con dulzura.</p>
+
+            <p>En este curso te acompañaré en el <strong>módulo 1: el Ser</strong>, y en algunas actividades de los módulos 2 y 5. Este espacio de aprendizaje es para que lo vivas de adentro hacia afuera y para acercar los Objetivos de Desarrollo Interior a los objetivos comunes de la Agenda 2030 y de tu organización.</p>
+
+            <div class="welcome-note">¡Déjate llevar! Conecta mente y corazón para que se haga la alquimia. ¡Bienvenidas, bienvenidos! Nos vemos adentro.</div>
+
+            <button class="close-btn" id="closeButton" type="button">Volver a la portada</button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const card = document.getElementById("profileCard");
+      const trigger = document.getElementById("photoTrigger");
+      const bio = document.getElementById("bioPanel");
+      const label = document.getElementById("revealLabel");
+      const closeButton = document.getElementById("closeButton");
+
+      function setOpen(open) {
+        card.classList.toggle("is-open", open);
+        trigger.setAttribute("aria-expanded", String(open));
+        bio.setAttribute("aria-hidden", String(!open));
+        label.firstChild.textContent = open ? "Ocultar información" : "Conocer a Ana";
+        requestResize();
+      }
+
+      function requestResize() {
+        window.setTimeout(() => {
+          const contentHeight = document.querySelector(".tutor-app").getBoundingClientRect().height;
+          if (window.parent !== window) {
+            window.parent.postMessage({ type: "idg-tutor-resize", height: Math.ceil(contentHeight) }, "*");
+          }
+        }, 700);
+      }
+
+      trigger.addEventListener("click", () => setOpen(!card.classList.contains("is-open")));
+      closeButton.addEventListener("click", () => {
+        setOpen(false);
+        trigger.focus();
+      });
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && card.classList.contains("is-open")) {
+          setOpen(false);
+          trigger.focus();
+        }
+      });
+      window.addEventListener("load", requestResize);
+      window.addEventListener("resize", requestResize);
+    })();
+  </script>
+</body>
+</html>
